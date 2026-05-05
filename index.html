@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sofred Kitchen & Bar — Abuja's Finest Nigerian Cuisine</title>
+  <meta name="description" content="Authentic Nigerian meals, drinks, and outdoor catering in Abuja. Dine-in, delivery, and events." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       CSS CUSTOM PROPERTIES
+    ========================================================= */
+    :root {
+      --green:   #1B4332;
+      --green-light: #2D6A4F;
+      --orange:  #E76F51;
+      --orange-light: #F4A261;
+      --cream:   #FDF6EC;
+      --cream-dark: #F5E6CF;
+      --white:   #FFFFFF;
+      --text:    #1A1A1A;
+      --text-muted: #5C5C5C;
+      --shadow:  0 4px 24px rgba(27,67,50,0.12);
+      --radius:  14px;
+      --transition: 0.3s ease;
+    }
+
+    /* =========================================================
+       RESET & BASE
+    ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; outline: none; font-family: 'Inter', sans-serif; }
+
+    /* =========================================================
+       UTILITIES
+    ========================================================= */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--green);
+      margin-bottom: 0.4rem;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 14px 30px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      letter-spacing: 0.3px;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: #d45f40; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(231,111,81,0.35); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--white);
+    }
+    .btn-outline:hover { background: var(--white); color: var(--green); transform: translateY(-2px); }
+    .btn-green {
+      background: var(--green);
+      color: var(--white);
+    }
+    .btn-green:hover { background: var(--green-light); transform: translateY(-2px); box-shadow: var(--shadow); }
+
+    /* =========================================================
+       FADE-IN ON SCROLL
+    ========================================================= */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in.delay-1 { transition-delay: 0.1s; }
+    .fade-in.delay-2 { transition-delay: 0.2s; }
+    .fade-in.delay-3 { transition-delay: 0.3s; }
+
+    /* =========================================================
+       NAVBAR
+    ========================================================= */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(27,67,50,0.97);
+      backdrop-filter: blur(10px);
+      padding: 14px 0;
+      transition: box-shadow 0.3s;
+    }
+    #navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.25); }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.1;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: rgba(253,246,236,0.85);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Open/Closed badge */
+    #status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+    #status-badge.open { background: rgba(45,166,79,0.2); color: #5CDB95; border: 1px solid rgba(92,219,149,0.4); }
+    #status-badge.closed { background: rgba(231,111,81,0.2); color: #E76F51; border: 1px solid rgba(231,111,81,0.4); }
+    #status-badge .dot { width: 7px; height: 7px; border-radius: 50%; }
+    #status-badge.open .dot { background: #5CDB95; animation: pulse-green 2s infinite; }
+    #status-badge.closed .dot { background: #E76F51; }
+    @keyframes pulse-green {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(92,219,149,0.4); }
+      50% { box-shadow: 0 0 0 5px rgba(92,219,149,0); }
+    }
+
+    /* Cart button */
+    #cart-btn {
+      position: relative;
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: var(--transition);
+    }
+    #cart-btn:hover { background: #d45f40; }
+    #cart-count {
+      background: var(--white);
+      color: var(--orange);
+      font-weight: 700;
+      font-size: 0.78rem;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Mobile nav toggle */
+    #nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    #nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--cream);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 62px; left: 0; right: 0;
+        background: var(--green);
+        flex-direction: column;
+        padding: 24px 24px 32px;
+        gap: 20px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      }
+      .nav-links.open { display: flex; }
+      #nav-toggle { display: flex; }
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--green);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1400&q=80');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.22;
+      transform: scale(1.05);
+      animation: slow-zoom 20s ease-in-out infinite alternate;
+    }
+    @keyframes slow-zoom {
+      from { transform: scale(1.05); }
+      to { transform: scale(1.12); }
+    }
+    /* Warm gradient overlay */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(27,67,50,0.92) 0%,
+        rgba(27,67,50,0.75) 50%,
+        rgba(231,111,81,0.3) 100%
+      );
+    }
+    /* Decorative pattern */
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 20% 80%, rgba(231,111,81,0.12) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(244,162,97,0.1) 0%, transparent 50%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 120px 20px 60px;
+      max-width: 780px;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(231,111,81,0.2);
+      border: 1px solid rgba(231,111,81,0.5);
+      color: var(--orange-light);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 50px;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-size: clamp(2.6rem, 7vw, 5.2rem);
+      color: var(--cream);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    .hero-title em { color: var(--orange); font-style: normal; }
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: rgba(253,246,236,0.8);
+      margin-bottom: 40px;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(253,246,236,0.5);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(253,246,236,0.5), transparent);
+      animation: scroll-bounce 2s ease-in-out infinite;
+    }
+    @keyframes scroll-bounce {
+      0%, 100% { transform: scaleY(1); opacity: 0.5; }
+      50% { transform: scaleY(0.5); opacity: 1; }
+    }
+
+    /* =========================================================
+       ABOUT
+    ========================================================= */
+    #about {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img {
+      width: 100%;
+      height: 440px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .about-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: var(--orange);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(231,111,81,0.35);
+      line-height: 1.3;
+    }
+    .about-badge strong { font-size: 2rem; display: block; }
+    .about-text .section-title { margin-bottom: 12px; }
+    .about-text p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 1.02rem;
+    }
+    .about-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .about-feature {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--cream);
+      padding: 10px 16px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--green);
+    }
+    .about-feature .icon { font-size: 1.1rem; }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-badge { right: 0; bottom: -16px; }
+    }
+
+    /* =========================================================
+       MENU
+    ========================================================= */
+    #menu {
+      padding: 100px 0;
+      background: var(--cream);
+    }
+    .menu-header { text-align: center; }
+    .menu-header .section-subtitle { margin: 0 auto 40px; }
+
+    /* Category tabs */
+    .menu-tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .menu-tab {
+      padding: 9px 22px;
+      border-radius: 50px;
+      border: 2px solid var(--green);
+      background: transparent;
+      color: var(--green);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .menu-tab.active, .menu-tab:hover {
+      background: var(--green);
+      color: var(--cream);
+    }
+
+    /* Menu category grids */
+    .menu-category { display: none; }
+    .menu-category.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 24px; }
+
+    /* Menu card */
+    .menu-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(27,67,50,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .menu-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(27,67,50,0.15); }
+    .menu-card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .menu-card-body { padding: 18px 20px 22px; flex: 1; display: flex; flex-direction: column; }
+    .menu-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .menu-card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      flex: 1;
+      margin-bottom: 14px;
+    }
+    .menu-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .menu-card-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--orange);
+    }
+    .qty-control {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid var(--green);
+      border-radius: 50px;
+      overflow: hidden;
+    }
+    .qty-btn {
+      width: 30px;
+      height: 30px;
+      background: transparent;
+      color: var(--green);
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .qty-btn:hover { background: var(--green); color: var(--white); }
+    .qty-display {
+      min-width: 28px;
+      text-align: center;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    /* =========================================================
+       CART SIDEBAR
+    ========================================================= */
+    #cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    #cart-overlay.open { opacity: 1; pointer-events: all; }
+
+    #cart-sidebar {
+      position: fixed;
+      top: 0; right: 0;
+      width: min(420px, 100vw);
+      height: 100vh;
+      background: var(--white);
+      z-index: 1200;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: -8px 0 40px rgba(0,0,0,0.2);
+    }
+    #cart-sidebar.open { transform: translateX(0); }
+
+    .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--cream-dark);
+      background: var(--green);
+      color: var(--cream);
+    }
+    .cart-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; }
+    #cart-close {
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    #cart-close:hover { background: rgba(255,255,255,0.3); }
+
+    .cart-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+    #cart-empty {
+      text-align: center;
+      color: var(--text-muted);
+      margin-top: 60px;
+      font-size: 1.05rem;
+    }
+    #cart-empty .empty-icon { font-size: 3rem; margin-bottom: 12px; }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--cream-dark);
+      font-size: 0.9rem;
+    }
+    .cart-item-name { font-weight: 600; color: var(--green); }
+    .cart-item-sub { color: var(--text-muted); font-size: 0.8rem; }
+    .cart-item-price { font-weight: 700; color: var(--orange); white-space: nowrap; }
+    .cart-item-remove {
+      background: none;
+      border: 1px solid #ddd;
+      color: var(--text-muted);
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cart-item-remove:hover { border-color: var(--orange); color: var(--orange); }
+
+    .cart-footer { padding: 20px 24px; border-top: 1px solid var(--cream-dark); }
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--green);
+    }
+    .cart-disclaimer {
+      background: #FFF8F0;
+      border: 1px solid rgba(231,111,81,0.3);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.8rem;
+      color: #8B4513;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* Form fields in cart */
+    .cart-form-group { margin-bottom: 14px; }
+    .cart-form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .cart-form-group input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--cream-dark);
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      transition: border-color 0.2s;
+    }
+    .cart-form-group input:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+    .cart-form-group input.error { border-color: var(--orange); }
+
+    /* Honeypot — visually hidden but accessible to bots */
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      tab-index: -1;
+    }
+
+    #send-order-btn {
+      width: 100%;
+      padding: 15px;
+      background: #25D366;
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+    #send-order-btn:hover:not(:disabled) { background: #1fb558; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,211,102,0.35); }
+    #send-order-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    #cart-error {
+      color: var(--orange);
+      font-size: 0.82rem;
+      margin-top: 8px;
+      min-height: 20px;
+      font-weight: 500;
+    }
+
+    /* =========================================================
+       CATERING / EVENTS
+    ========================================================= */
+    #catering {
+      padding: 100px 0;
+      background: var(--green);
+      position: relative;
+      overflow: hidden;
+    }
+    .catering-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 10% 90%, rgba(231,111,81,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 10%, rgba(244,162,97,0.1) 0%, transparent 50%);
+    }
+    .catering-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .catering-text .section-title { color: var(--cream); }
+    .catering-text .section-subtitle { color: rgba(253,246,236,0.75); }
+    .catering-text p {
+      color: rgba(253,246,236,0.8);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+    .event-types {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .event-type {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: var(--cream);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .event-type .et-icon { font-size: 1.3rem; }
+    .catering-img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .catering-inner { grid-template-columns: 1fr; gap: 40px; }
+      .catering-img { height: 280px; }
+    }
+
+    /* =========================================================
+       TESTIMONIALS
+    ========================================================= */
+    #testimonials {
+      padding: 100px 0;
+      background: var(--cream-dark);
+    }
+    .testimonials-header { text-align: center; }
+    .testimonials-header .section-subtitle { margin: 0 auto 50px; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .testimonial-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(27,67,50,0.08);
+      position: relative;
+      transition: var(--transition);
+    }
+    .testimonial-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .testimonial-quote {
+      font-size: 3rem;
+      color: var(--orange);
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+      margin-bottom: 12px;
+      opacity: 0.4;
+    }
+    .testimonial-text {
+      color: var(--text-muted);
+      line-height: 1.7;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testimonial-footer { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--green);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .testimonial-name { font-weight: 600; font-size: 0.95rem; color: var(--green); }
+    .testimonial-role { font-size: 0.8rem; color: var(--text-muted); }
+    .stars { color: #F4B942; font-size: 0.9rem; margin-bottom: 2px; }
+
+    /* =========================================================
+       CONTACT
+    ========================================================= */
+    #contact {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+    .contact-info .section-title { margin-bottom: 24px; }
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding: 20px;
+      background: var(--cream);
+      border-radius: var(--radius);
+    }
+    .contact-icon {
+      width: 44px; height: 44px;
+      background: var(--green);
+      color: var(--cream);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .contact-detail-text h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .contact-detail-text p, .contact-detail-text a {
+      font-size: 0.98rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .contact-detail-text a:hover { color: var(--green); }
+
+    .contact-wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25D366;
+      color: var(--white);
+      padding: 13px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-top: 8px;
+      transition: var(--transition);
+    }
+    .contact-wa-btn:hover { background: #1fb558; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,211,102,0.35); }
+
+    /* Map */
+    .map-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      height: 100%;
+      min-height: 360px;
+    }
+    .map-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .map-wrap { min-height: 260px; }
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    footer {
+      background: var(--green);
+      color: rgba(253,246,236,0.75);
+      padding: 48px 0 32px;
+    }
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--cream);
+    }
+    .footer-logo span { color: var(--orange); }
+    .footer-tagline { font-size: 0.88rem; opacity: 0.75; }
+    .footer-socials {
+      display: flex;
+      gap: 14px;
+    }
+    .footer-social {
+      background: rgba(255,255,255,0.1);
+      color: var(--cream);
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .footer-social:hover { background: var(--orange); }
+    .footer-divider {
+      width: 60px;
+      height: 1px;
+      background: rgba(255,255,255,0.2);
+    }
+    .footer-copy { font-size: 0.8rem; opacity: 0.6; }
+
+    /* =========================================================
+       FLOATING WHATSAPP
+    ========================================================= */
+    #float-wa {
+      position: fixed;
+      bottom: 28px;
+      right: 24px;
+      z-index: 999;
+      background: #25D366;
+      color: var(--white);
+      border-radius: 50%;
+      width: 58px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 6px 20px rgba(37,211,102,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+    #float-wa:hover { transform: scale(1.1); box-shadow: 0 10px 28px rgba(37,211,102,0.55); }
+
+    /* =========================================================
+       RESPONSIVE — misc
+    ========================================================= */
+    @media (max-width: 480px) {
+      .hero-btns { flex-direction: column; align-items: center; }
+      .event-types { grid-template-columns: 1fr; }
+    }
+
+    /* =========================================================
+       SECTION SPACING
+    ========================================================= */
+    section { scroll-margin-top: 72px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== FLOATING WHATSAPP BUTTON ===== -->
+  <a id="float-wa" href="https://wa.me/2348051020215" target="_blank" rel="noopener" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
+    <!-- WhatsApp SVG icon -->
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo">Sofred <span>Kitchen</span></a>
+
+      <!-- Nav links (desktop) -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#catering">Catering</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <!-- Right side -->
+      <div class="nav-right">
+        <!-- Live status badge -->
+        <div id="status-badge" aria-live="polite">
+          <span class="dot"></span>
+          <span id="status-text">Open Now</span>
+        </div>
+
+        <!-- Cart button -->
+        <button id="cart-btn" aria-label="View order cart">
+          🛒 Cart <span id="cart-count">0</span>
+        </button>
+
+        <!-- Mobile toggle -->
+        <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero" aria-label="Welcome banner">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-pattern" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">🍲 Authentic Nigerian Cuisine · Abuja</div>
+      <h1 class="hero-title">Flavours That Feel<br>Like <em>Home</em></h1>
+      <p class="hero-tagline">Your Best Local Delicious Meal in Abuja — from our kitchen to your table, your event, your heart.</p>
+      <div class="hero-btns">
+        <a href="#menu" class="btn btn-primary">🛍️ Order Now</a>
+        <a href="#catering" class="btn btn-outline">🎊 Book Catering</a>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about" aria-label="About Sofred Kitchen">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img-wrap fade-in">
+          <img
+            class="about-img"
+            src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=900&q=80"
+            alt="Nigerian food spread with jollof rice, soups and assorted proteins"
+            loading="lazy"
+          />
+          <div class="about-badge">
+            <strong>❤️</strong>
+            Made with<br>Love & Spice
+          </div>
+        </div>
+        <div class="about-text fade-in delay-1">
+          <p style="color:var(--orange);font-weight:600;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Our Story</p>
+          <h2 class="section-title">Abuja's Favourite<br>Local Kitchen</h2>
+          <p>We are Abuja's favourite local kitchen — serving authentic Nigerian meals with love, from our restaurant to your event. At Sofred Kitchen & Bar, every plate tells a story rooted in culture, warmth, and bold West African flavours.</p>
+          <p>From steaming bowls of Egusi Soup served with perfectly pounded yam to tall glasses of our house-made Tigernut Milk, we bring the true taste of home to every meal — whether you dine in, order for delivery, or invite us to your event.</p>
+          <div class="about-features">
+            <div class="about-feature"><span class="icon">🍛</span> Dine-In</div>
+            <div class="about-feature"><span class="icon">🛵</span> Delivery in Abuja</div>
+            <div class="about-feature"><span class="icon">🎪</span> Event Catering</div>
+            <div class="about-feature"><span class="icon">🥤</span> Signature Drinks</div>
+            <div class="about-feature"><span class="icon">📍</span> Apo Resettlement Park</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MENU ===== -->
+  <section id="menu" aria-label="Our menu">
+    <div class="container">
+      <div class="menu-header fade-in">
+        <p style="color:var(--orange);font-weight:600;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">What We Serve</p>
+        <h2 class="section-title">Our Menu</h2>
+        <p class="section-subtitle">Fresh, authentic Nigerian meals prepared daily with care.</p>
+      </div>
+
+      <!-- Category tabs -->
+      <div class="menu-tabs fade-in" role="tablist" aria-label="Menu categories">
+        <button class="menu-tab active" data-cat="soups" role="tab" aria-selected="true">Soups & Swallows</button>
+        <button class="menu-tab" data-cat="rice" role="tab" aria-selected="false">Rice Dishes</button>
+        <button class="menu-tab" data-cat="proteins" role="tab" aria-selected="false">Proteins</button>
+        <button class="menu-tab" data-cat="drinks" role="tab" aria-selected="false">Drinks</button>
+      </div>
+
+      <!-- Soups & Swallows -->
+      <div class="menu-category active" id="cat-soups" role="tabpanel">
+
+        <article class="menu-card fade-in">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80"
+            alt="A bowl of rich Egusi soup with assorted meat and stockfish, served with pounded yam"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Egusi Soup</h3>
+            <p class="menu-card-desc">Ground melon seeds slow-cooked in palm oil with assorted meat, stockfish, and leafy greens. Served with your choice of swallow.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦2,500</span>
+              <div class="qty-control" data-id="egusi-soup" data-name="Egusi Soup" data-price="2500">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card fade-in delay-1">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=600&q=80"
+            alt="Obo Akpa traditional Nigerian soup with crayfish and palm oil served with eba"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Obo Akpa</h3>
+            <p class="menu-card-desc">A rich, traditional delicacy from the heart of Kogi State — hearty and deeply flavoured. Served with your choice of swallow.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦2,800</span>
+              <div class="qty-control" data-id="obo-akpa" data-name="Obo Akpa" data-price="2800">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card fade-in delay-2">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=600&q=80"
+            alt="Obo Egwa green vegetable Nigerian soup served with pounded yam and goat meat"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Obo Egwa</h3>
+            <p class="menu-card-desc">Vibrant green vegetable soup with protein-packed ingredients, seasoned just right. Served with your choice of swallow.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦2,800</span>
+              <div class="qty-control" data-id="obo-egwa" data-name="Obo Egwa" data-price="2800">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Rice Dishes -->
+      <div class="menu-category" id="cat-rice" role="tabpanel">
+
+        <article class="menu-card fade-in">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=600&q=80"
+            alt="Steaming plate of Nigerian party Jollof rice with tomato stew and fried chicken"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Jollof Rice</h3>
+            <p class="menu-card-desc">The legendary party rice — slow-cooked in a rich tomato and pepper base. Full of smoky flavour that keeps you coming back.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦2,000</span>
+              <div class="qty-control" data-id="jollof-rice" data-name="Jollof Rice" data-price="2000">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card fade-in delay-1">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=600&q=80"
+            alt="Nigerian fried rice with colourful mixed vegetables, carrots, green peas and liver"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Fried Rice</h3>
+            <p class="menu-card-desc">Fragrant long-grain rice stir-fried with mixed vegetables, liver, and shrimp in savoury seasoning. A true crowd pleaser.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦2,000</span>
+              <div class="qty-control" data-id="fried-rice" data-name="Fried Rice" data-price="2000">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card fade-in delay-2">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&q=80"
+            alt="Nigerian native rice cooked with palm oil, crayfish, dried fish and spicy pepper"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Native Rice</h3>
+            <p class="menu-card-desc">Earthy, aromatic rice cooked the traditional way — with palm oil, crayfish, and dried fish. Comfort in every bite.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦2,200</span>
+              <div class="qty-control" data-id="native-rice" data-name="Native Rice" data-price="2200">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Proteins -->
+      <div class="menu-category" id="cat-proteins" role="tabpanel">
+
+        <article class="menu-card fade-in">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80"
+            alt="Whole grilled fish seasoned with Nigerian spices and herbs, served on a platter"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Grilled Fish</h3>
+            <p class="menu-card-desc">Whole fresh fish marinated in our signature spice blend, grilled to golden perfection over open charcoal heat.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦3,500</span>
+              <div class="qty-control" data-id="grilled-fish" data-name="Grilled Fish" data-price="3500">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card fade-in delay-1">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80"
+            alt="Assorted meat platter with beef, tripe, shaki and ponmo seasoned in Nigerian pepper sauce"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Assorted Meat</h3>
+            <p class="menu-card-desc">A generous platter of beef, tripe, shaki, and ponmo slow-cooked in a bold pepper and crayfish sauce. The ultimate protein treat.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦2,500</span>
+              <div class="qty-control" data-id="assorted-meat" data-name="Assorted Meat" data-price="2500">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card fade-in delay-2">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1598103442097-8b74394b95c7?w=600&q=80"
+            alt="Juicy grilled chicken pieces seasoned with spicy Nigerian suya spice"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Chicken</h3>
+            <p class="menu-card-desc">Tender, well-seasoned chicken — grilled or fried your way. Marinated overnight in our house blend for maximum flavour.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦2,200</span>
+              <div class="qty-control" data-id="chicken" data-name="Chicken" data-price="2200">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Drinks -->
+      <div class="menu-category" id="cat-drinks" role="tabpanel">
+
+        <article class="menu-card fade-in">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=600&q=80"
+            alt="A glass of creamy white tigernut milk with tigernut seeds scattered around"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Tigernut Milk</h3>
+            <p class="menu-card-desc">Our signature house-made tigernut milk — naturally sweet, creamy, and loaded with nutrients. Sofred's most-loved drink.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦1,500</span>
+              <div class="qty-control" data-id="tigernut-milk" data-name="Tigernut Milk" data-price="1500">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card fade-in delay-1">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80"
+            alt="Deep red chilled Zobo hibiscus drink garnished with pineapple and ginger slices"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Zobo</h3>
+            <p class="menu-card-desc">Chilled hibiscus flower drink steeped with ginger, pineapple, and cloves. Naturally refreshing and deeply Nigerian.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦1,000</span>
+              <div class="qty-control" data-id="zobo" data-name="Zobo" data-price="1000">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card fade-in delay-2">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1560526860-1f0e56046c85?w=600&q=80"
+            alt="Colourful Chapman cocktail drink with fruit slices and bitters served in a tall glass"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Chapman</h3>
+            <p class="menu-card-desc">Nigeria's favourite party drink — a sparkling mix of Fanta, Sprite, cucumber, and bitters. Fruity, fizzy, and festive.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦1,200</span>
+              <div class="qty-control" data-id="chapman" data-name="Chapman" data-price="1200">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card fade-in delay-3">
+          <img
+            class="menu-card-img"
+            src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80"
+            alt="Customized colourful mocktail drinks garnished with fruit and mint leaves"
+            loading="lazy"
+          />
+          <div class="menu-card-body">
+            <h3 class="menu-card-name">Customized Mocktails</h3>
+            <p class="menu-card-desc">Tell us your vibe and we'll craft a mocktail just for you. Perfect for events, dates, or when you want something special.</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">₦1,500</span>
+              <div class="qty-control" data-id="custom-mocktail" data-name="Customized Mocktail" data-price="1500">
+                <button class="qty-btn minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-display">0</span>
+                <button class="qty-btn plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CART SIDEBAR ===== -->
+  <div id="cart-overlay" aria-hidden="true"></div>
+  <aside id="cart-sidebar" aria-label="Your order cart" role="complementary">
+    <div class="cart-header">
+      <h2 class="cart-title">Your Order 🛒</h2>
+      <button id="cart-close" aria-label="Close cart">✕</button>
+    </div>
+
+    <div class="cart-body">
+      <!-- Empty state -->
+      <div id="cart-empty">
+        <div class="empty-icon">🍽️</div>
+        <p>Your cart is empty.<br>Add items from the menu!</p>
+      </div>
+      <!-- Cart items will be injected here -->
+      <div id="cart-items"></div>
+    </div>
+
+    <div class="cart-footer" id="cart-footer" style="display:none;">
+      <div class="cart-total-row">
+        <span>Total</span>
+        <span id="cart-total">₦0</span>
+      </div>
+
+      <div class="cart-disclaimer">
+        ⚠️ Prices are for reference only. Final order total will be confirmed by Sofred Kitchen &amp; Bar via WhatsApp before payment.
+      </div>
+
+      <!-- Honeypot field — hidden from real users, visible to bots -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="website-field">Website</label>
+        <input type="text" id="website-field" name="website" autocomplete="off" tabindex="-1" />
+      </div>
+
+      <div class="cart-form-group">
+        <label for="customer-name">Your Name *</label>
+        <input type="text" id="customer-name" placeholder="e.g. Amaka Johnson" autocomplete="name" maxlength="60" />
+      </div>
+      <div class="cart-form-group">
+        <label for="delivery-address">Delivery Address *</label>
+        <input type="text" id="delivery-address" placeholder="e.g. 14 Apo Dutse, Abuja" autocomplete="street-address" maxlength="120" />
+      </div>
+
+      <button id="send-order-btn" disabled>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Send Order via WhatsApp
+      </button>
+      <div id="cart-error" role="alert" aria-live="polite"></div>
+    </div>
+  </aside>
+
+  <!-- ===== CATERING / EVENTS ===== -->
+  <section id="catering" aria-label="Outdoor catering services">
+    <div class="catering-pattern" aria-hidden="true"></div>
+    <div class="container">
+      <div class="catering-inner">
+        <div class="catering-text fade-in">
+          <p style="color:var(--orange-light);font-weight:600;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Events & Catering</p>
+          <h2 class="section-title">We Come<br>To Your Event</h2>
+          <p class="section-subtitle" style="color:rgba(253,246,236,0.75);">Let Sofred Kitchen bring the full Nigerian dining experience to your special occasions — anywhere in Abuja.</p>
+          <p>From intimate birthday dinners to large corporate events and grand weddings, our outdoor catering team delivers the same quality and warmth that our restaurant is known for — right at your venue, on your terms.</p>
+          <div class="event-types">
+            <div class="event-type"><span class="et-icon">💒</span> Weddings</div>
+            <div class="event-type"><span class="et-icon">🏢</span> Corporate Events</div>
+            <div class="event-type"><span class="et-icon">🎂</span> Birthday Parties</div>
+            <div class="event-type"><span class="et-icon">👶</span> Naming Ceremonies</div>
+          </div>
+          <a
+            href="https://wa.me/2348051020215?text=Hello!%20I'd%20like%20to%20enquire%20about%20catering%20for%20my%20event."
+            target="_blank"
+            rel="noopener"
+            class="btn btn-primary"
+          >
+            🎊 Book Us for Your Event
+          </a>
+        </div>
+        <div class="fade-in delay-2">
+          <img
+            class="catering-img"
+            src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=900&q=80"
+            alt="Outdoor catering event setup with Nigerian food spread at a beautifully decorated venue"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section id="testimonials" aria-label="Customer reviews">
+    <div class="container">
+      <div class="testimonials-header fade-in">
+        <p style="color:var(--orange);font-weight:600;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Happy Customers</p>
+        <h2 class="section-title">What People Say</h2>
+        <p class="section-subtitle">Real reviews from our Abuja family.</p>
+      </div>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card fade-in">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">The Egusi Soup here is something else! I've been a Sofred regular for over a year now. The pounded yam is always smooth and the portion size is very generous. Highly recommended for anyone who loves authentic Nigerian food.</p>
+          <div class="testimonial-footer">
+            <div class="testimonial-avatar">C</div>
+            <div>
+              <div class="stars">★★★★★</div>
+              <div class="testimonial-name">Chidinma Okafor</div>
+              <div class="testimonial-role">Loyal customer, Apo Area</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in delay-1">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">We booked Sofred for our daughter's naming ceremony and they completely blew us away. The Jollof Rice was the talk of the entire event. Professional setup, friendly staff, and the food didn't run out — God bless Sofred!</p>
+          <div class="testimonial-footer">
+            <div class="testimonial-avatar">A</div>
+            <div>
+              <div class="stars">★★★★★</div>
+              <div class="testimonial-name">Alhaji Musa Bello</div>
+              <div class="testimonial-role">Event customer, Gwarinpa</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in delay-2">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">The Tigernut Milk alone is worth the trip to Apo! It tastes so fresh and natural — nothing like the packaged ones. My office orders food from here every Friday. The grilled fish is elite. Please never change your recipe!</p>
+          <div class="testimonial-footer">
+            <div class="testimonial-avatar">F</div>
+            <div>
+              <div class="stars">★★★★★</div>
+              <div class="testimonial-name">Funmilayo Adeyemi</div>
+              <div class="testimonial-role">Regular customer, Lugbe</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" aria-label="Contact and location">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info fade-in">
+          <p style="color:var(--orange);font-weight:600;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Find Us</p>
+          <h2 class="section-title">Contact &amp;<br>Location</h2>
+
+          <div class="contact-detail">
+            <div class="contact-icon">📍</div>
+            <div class="contact-detail-text">
+              <h4>Address</h4>
+              <p>Beside Eleojo Pharmacy, Apo Resettlement Park, Abuja</p>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">📞</div>
+            <div class="contact-detail-text">
+              <h4>Phone / WhatsApp</h4>
+              <a href="tel:+2348051020215">08051020215</a>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">🕙</div>
+            <div class="contact-detail-text">
+              <h4>Opening Hours</h4>
+              <p>Mon – Sat: 10:00 AM – 9:00 PM<br>Sunday: Closed</p>
+            </div>
+          </div>
+
+          <a
+            href="https://wa.me/2348051020215?text=Hello%20Sofred%20Kitchen!%20I'd%20like%20to%20make%20an%20enquiry."
+            target="_blank"
+            rel="noopener"
+            class="contact-wa-btn"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Chat on WhatsApp
+          </a>
+        </div>
+
+        <div class="fade-in delay-1">
+          <div class="map-wrap">
+            <!-- Google Maps embed for Apo Resettlement Park, Abuja -->
+            <iframe
+              title="Sofred Kitchen location on Google Maps"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3941.6098234985553!2d7.536399!3d8.979389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e74539c9f3083%3A0x4a52b5a03c0b890!2sApo%20Resettlement%20Park%2C%20Abuja!5e0!3m2!1sen!2sng!4v1680000000000!5m2!1sen!2sng"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">Sofred <span>Kitchen</span> & Bar</div>
+        <p class="footer-tagline">Your Best Local Delicious Meal in Abuja 🇳🇬</p>
+        <div class="footer-socials">
+          <a
+            href="https://www.facebook.com/SofredJuiceBar"
+            target="_blank"
+            rel="noopener"
+            class="footer-social"
+            aria-label="Follow us on Facebook"
+          >f</a>
+          <a
+            href="https://www.instagram.com/sofred_kitchen_bar_"
+            target="_blank"
+            rel="noopener"
+            class="footer-social"
+            aria-label="Follow us on Instagram"
+          >ig</a>
+          <a
+            href="https://wa.me/2348051020215"
+            target="_blank"
+            rel="noopener"
+            class="footer-social"
+            aria-label="Message us on WhatsApp"
+          >wa</a>
+        </div>
+        <div class="footer-divider"></div>
+        <p class="footer-copy">&copy; <span id="copy-year"></span> Sofred Kitchen & Bar. All rights reserved. Beside Eleojo Pharmacy, Apo Resettlement Park, Abuja.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    'use strict';
+
+    /* =========================================================
+       1. CART STATE
+         All cart data lives only here — never in localStorage,
+         sessionStorage, or cookies.
+    ========================================================= */
+    const cart = {}; // { item-id: { name, price, qty } }
+
+    /* =========================================================
+       2. LIVE OPEN/CLOSED STATUS (WAT = UTC+1)
+    ========================================================= */
+    function updateStatus() {
+      const now = new Date();
+      // Convert to WAT (UTC+1) using getTimezoneOffset trick
+      const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const watDate = new Date(utcMs + 3600000); // +1 hour
+
+      const day = watDate.getDay();   // 0 = Sunday, 6 = Saturday
+      const hour = watDate.getHours();
+      const minute = watDate.getMinutes();
+      const timeVal = hour * 60 + minute; // minutes since midnight
+
+      // Mon–Sat (1–6), 10:00–21:00 WAT
+      const isOpen = day >= 1 && day <= 6 && timeVal >= 600 && timeVal < 1260;
+
+      const badge = document.getElementById('status-badge');
+      const statusText = document.getElementById('status-text');
+
+      if (isOpen) {
+        badge.className = 'open';
+        statusText.textContent = 'Open Now';
+      } else {
+        badge.className = 'closed';
+        statusText.textContent = day === 0 ? 'Closed — Sunday' : 'Closed';
+      }
+    }
+    updateStatus();
+    setInterval(updateStatus, 60000); // refresh every minute
+
+    /* =========================================================
+       3. NAVBAR — scroll shadow + mobile toggle
+    ========================================================= */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    // Close nav on link click (mobile)
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    /* =========================================================
+       4. MENU CATEGORY TABS
+    ========================================================= */
+    document.querySelectorAll('.menu-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active from all tabs
+        document.querySelectorAll('.menu-tab').forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        // Hide all categories
+        document.querySelectorAll('.menu-category').forEach(c => c.classList.remove('active'));
+
+        // Activate clicked tab
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        const cat = tab.dataset.cat;
+        document.getElementById('cat-' + cat).classList.add('active');
+
+        // Re-trigger fade-ins for newly visible cards
+        triggerFadeIn();
+      });
+    });
+
+    /* =========================================================
+       5. QUANTITY CONTROLS
+    ========================================================= */
+    document.querySelectorAll('.qty-control').forEach(control => {
+      const id    = control.dataset.id;
+      const name  = control.dataset.name;
+      const price = parseInt(control.dataset.price, 10);
+      const display = control.querySelector('.qty-display');
+      const minus   = control.querySelector('.qty-btn.minus');
+      const plus    = control.querySelector('.qty-btn.plus');
+
+      plus.addEventListener('click', () => {
+        if (!cart[id]) cart[id] = { name, price, qty: 0 };
+        cart[id].qty += 1;
+        display.textContent = cart[id].qty;
+        renderCart();
+      });
+
+      minus.addEventListener('click', () => {
+        if (!cart[id] || cart[id].qty === 0) return;
+        cart[id].qty -= 1;
+        display.textContent = cart[id].qty;
+        if (cart[id].qty === 0) delete cart[id];
+        renderCart();
+      });
+    });
+
+    /* =========================================================
+       6. RENDER CART
+    ========================================================= */
+    function renderCart() {
+      const itemsEl  = document.getElementById('cart-items');
+      const emptyEl  = document.getElementById('cart-empty');
+      const footerEl = document.getElementById('cart-footer');
+      const totalEl  = document.getElementById('cart-total');
+      const countEl  = document.getElementById('cart-count');
+
+      const entries = Object.entries(cart).filter(([, v]) => v.qty > 0);
+
+      // Update nav count
+      const totalQty = entries.reduce((sum, [, v]) => sum + v.qty, 0);
+      countEl.textContent = totalQty;
+
+      if (entries.length === 0) {
+        emptyEl.style.display = 'block';
+        footerEl.style.display = 'none';
+        itemsEl.innerHTML = '';
+        document.getElementById('send-order-btn').disabled = true;
+        return;
+      }
+
+      emptyEl.style.display = 'none';
+      footerEl.style.display = 'block';
+
+      // Build item rows
+      itemsEl.innerHTML = entries.map(([id, item]) => `
+        <div class="cart-item">
+          <div>
+            <div class="cart-item-name">${escapeHtml(item.name)}</div>
+            <div class="cart-item-sub">x${item.qty} — ₦${(item.price * item.qty).toLocaleString()}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="cart-item-price">₦${(item.price * item.qty).toLocaleString()}</span>
+            <button class="cart-item-remove" data-remove="${id}" aria-label="Remove ${escapeHtml(item.name)} from order">✕</button>
+          </div>
+        </div>
+      `).join('');
+
+      // Bind remove buttons
+      itemsEl.querySelectorAll('[data-remove]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const removeId = btn.dataset.remove;
+          // Reset the qty display on the card
+          const ctrl = document.querySelector(`.qty-control[data-id="${removeId}"] .qty-display`);
+          if (ctrl) ctrl.textContent = '0';
+          delete cart[removeId];
+          renderCart();
+        });
+      });
+
+      // Total
+      const total = entries.reduce((sum, [, v]) => sum + v.price * v.qty, 0);
+      totalEl.textContent = '₦' + total.toLocaleString();
+
+      // Enable/disable send button based on form validity
+      validateForm();
+    }
+
+    /* =========================================================
+       7. FORM VALIDATION & SEND BUTTON STATE
+    ========================================================= */
+    function sanitizeInput(str) {
+      // Strip characters that could break a URL or cause injection
+      return str.replace(/[&#+%<>'"\\]/g, '').trim();
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
+    function validateForm() {
+      const name    = document.getElementById('customer-name').value.trim();
+      const address = document.getElementById('delivery-address').value.trim();
+      const entries = Object.entries(cart).filter(([, v]) => v.qty > 0);
+      const sendBtn = document.getElementById('send-order-btn');
+      sendBtn.disabled = !(name.length > 0 && address.length > 0 && entries.length > 0);
+    }
+
+    document.getElementById('customer-name').addEventListener('input', validateForm);
+    document.getElementById('delivery-address').addEventListener('input', validateForm);
+
+    /* =========================================================
+       8. SEND ORDER VIA WHATSAPP
+    ========================================================= */
+    document.getElementById('send-order-btn').addEventListener('click', () => {
+      const errorEl = document.getElementById('cart-error');
+      errorEl.textContent = '';
+
+      // ---- Honeypot check ----
+      const hpVal = document.getElementById('website-field').value;
+      if (hpVal.length > 0) {
+        // Bot detected — silently fail, show generic error
+        document.getElementById('send-order-btn').disabled = true;
+        errorEl.textContent = 'Something went wrong. Please try again.';
+        return;
+      }
+
+      const rawName    = document.getElementById('customer-name').value;
+      const rawAddress = document.getElementById('delivery-address').value;
+
+      const name    = sanitizeInput(rawName);
+      const address = sanitizeInput(rawAddress);
+
+      if (!name || !address) {
+        errorEl.textContent = 'Please enter your name and delivery address.';
+        document.getElementById('customer-name').classList.toggle('error', !name);
+        document.getElementById('delivery-address').classList.toggle('error', !address);
+        return;
+      }
+
+      const entries = Object.entries(cart).filter(([, v]) => v.qty > 0);
+      if (entries.length === 0) {
+        errorEl.textContent = 'Your cart is empty.';
+        return;
+      }
+
+      // Build order lines
+      const orderLines = entries.map(([, item]) => {
+        const lineTotal = (item.price * item.qty).toLocaleString();
+        return `- ${item.name} x${item.qty} — ₦${lineTotal}`;
+      }).join('\n');
+
+      const grandTotal = entries.reduce((sum, [, v]) => sum + v.price * v.qty, 0);
+
+      const message =
+        `Hello Sofred Kitchen & Bar! I'd like to place an order:\n` +
+        orderLines + '\n' +
+        `Total: ₦${grandTotal.toLocaleString()}\n` +
+        `Name: ${name}\n` +
+        `Delivery address: ${address}`;
+
+      const waURL = 'https://wa.me/2348051020215?text=' + encodeURIComponent(message);
+
+      // Open WhatsApp link
+      window.open(waURL, '_blank', 'noopener,noreferrer');
+
+      // ---- IMMEDIATELY clear all cart data and form fields ----
+      clearCart();
+    });
+
+    function clearCart() {
+      // Clear JS state
+      Object.keys(cart).forEach(k => delete cart[k]);
+
+      // Reset all qty displays on all cards
+      document.querySelectorAll('.qty-display').forEach(el => el.textContent = '0');
+
+      // Clear form inputs
+      document.getElementById('customer-name').value = '';
+      document.getElementById('delivery-address').value = '';
+      document.getElementById('customer-name').classList.remove('error');
+      document.getElementById('delivery-address').classList.remove('error');
+      document.getElementById('cart-error').textContent = '';
+      document.getElementById('website-field').value = '';
+
+      // Re-render empty cart
+      renderCart();
+
+      // Close sidebar
+      closeCart();
+    }
+
+    /* =========================================================
+       9. CART SIDEBAR OPEN / CLOSE
+    ========================================================= */
+    function openCart() {
+      document.getElementById('cart-sidebar').classList.add('open');
+      document.getElementById('cart-overlay').classList.add('open');
+      document.getElementById('cart-overlay').setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCart() {
+      document.getElementById('cart-sidebar').classList.remove('open');
+      document.getElementById('cart-overlay').classList.remove('open');
+      document.getElementById('cart-overlay').setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('cart-btn').addEventListener('click', openCart);
+    document.getElementById('cart-close').addEventListener('click', closeCart);
+    document.getElementById('cart-overlay').addEventListener('click', closeCart);
+
+    /* =========================================================
+       10. SCROLL FADE-IN ANIMATIONS
+    ========================================================= */
+    function triggerFadeIn() {
+      const elements = document.querySelectorAll('.fade-in:not(.visible)');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      elements.forEach(el => observer.observe(el));
+    }
+    triggerFadeIn();
+
+    /* =========================================================
+       11. FOOTER YEAR
+    ========================================================= */
+    document.getElementById('copy-year').textContent = new Date().getFullYear();
+
+    /* =========================================================
+       12. INITIAL RENDER (sets up empty cart display)
+    ========================================================= */
+    renderCart();
+  </script>
+</body>
+</html>
