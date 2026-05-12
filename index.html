@@ -631,11 +631,14 @@ function renderMenu() {
   });
 }
 
-function switchTab(btn, cat) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("on"));
-  document.querySelectorAll(".mpanel").forEach(p => p.classList.remove("on"));
-  btn.classList.add("on");
-  document.getElementById("tab-" + cat).classList.add("on");
+function searchMenu() {
+  const input = document.getElementById("menuSearch").value.toLowerCase();
+
+  document.querySelectorAll(".mcard").forEach(card => {
+    const text = card.innerText.toLowerCase();
+
+    card.style.display = text.includes(input) ? "block" : "none";
+  });
 }
 
 function addItem(name, price, btn) {
