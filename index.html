@@ -631,6 +631,29 @@ function renderMenu() {
   });
 }
 
+  function switchTab(btn, cat) {
+  // remove active tab
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("on"));
+
+  // hide all panels
+  document.querySelectorAll(".mpanel").forEach(p => p.classList.remove("on"));
+
+  // activate clicked tab
+  btn.classList.add("on");
+
+  // show selected panel safely
+  const panel = document.getElementById("tab-" + cat);
+  if (panel) panel.classList.add("on");
+
+  // reset search
+  const search = document.getElementById("menuSearch");
+  if (search) search.value = "";
+
+  // reset cards
+  document.querySelectorAll(".mcard").forEach(card => {
+    card.style.display = "block";
+  });
+}
 function searchMenu() {
   const input = document.getElementById("menuSearch").value.toLowerCase();
 
