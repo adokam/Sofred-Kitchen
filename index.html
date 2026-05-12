@@ -347,7 +347,7 @@ footer{background:var(--ink);padding:60px 0 28px}
       <h1 class="htitle">Abuja's best<br><em>local kitchen</em></h1>
       <p class="hsub">Authentic Nigerian meals cooked with love. Dine in, order delivery, or let us cater your next event.</p>
       <div class="hbtns">
-     <button onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})" class="btn btn-gold">
+    <button onclick="openMenu()" class="btn btn-gold">
   View Our Menu
 </button>
         <a href="#catering" class="btn btn-ghost">Book Catering</a>
@@ -631,16 +631,22 @@ function renderMenu() {
   });
 }
 
-  function openMenu() {
+function openMenu() {
   const menu = document.getElementById("menu");
-  if (menu) {
-    menu.style.display = "block";
-    menu.scrollIntoView({ behavior: "smooth" });
-  }
 
-  // auto-open first tab (Rice)
-  const firstTab = document.querySelector(".tab");
-  if (firstTab) firstTab.click();
+  if (!menu) return;
+
+  // show menu
+  menu.style.display = "block";
+
+  // scroll to it
+  menu.scrollIntoView({ behavior: "smooth" });
+
+  // auto open first tab (Rice)
+  setTimeout(() => {
+    const firstTab = document.querySelector(".tab");
+    if (firstTab) firstTab.click();
+  }, 100);
 }
   function switchTab(btn, cat) {
   // remove active tab
